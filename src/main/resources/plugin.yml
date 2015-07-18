@@ -1,11 +1,4 @@
 name: JenkinsUpdater
 version: 1.0.0
 authors: [ fly4lol ]
-main: de.fly4lol.updater.Main
-commands:
-  test:
-    description: Create and manage help requests
-    usage: /<command> (use without parameters for detailed help)
-  test2:
-    description: Create and manage help requests
-    usage: /<command> (use without parameters for detailed help)
+main: de.fly4lol.updater.JenkinsUpdater

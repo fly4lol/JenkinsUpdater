@@ -6,10 +6,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Job;
 
+import de.fly4lol.updater.util.Project;
 import de.pro_crafting.commandframework.CommandFramework;
 
 public class Repository {
@@ -32,6 +37,40 @@ public class Repository {
 			return this.server;
 		} 
 		return new JenkinsServer( this.getURL(), this.getUser(), this.getPassword());
+	}
+	
+	public List<Project> getProjects(){
+		List<Project> projects = new ArrayList<Project>();
+		List<String> projectNames = this.getProjectNames();
+		if( projectNames == null ){
+			Bukkit.broadcastMessage( "projectNames Null" );
+		}
+		for(String project : projectNames){
+			if(project == null){
+				Bukkit.broadcastMessage( "project null!");
+			}
+			
+			if( this.getPluginNamebyProjectName( project ) == null){
+				Bukkit.broadcastMessage(" plugin name  NULL");
+			}
+			
+			if( projects ==  null ){
+				Bukkit.broadcastMessage(" projects  null!");
+			}
+			projects.add( new Project( project , this.getPluginNamebyProjectName( project)) );
+		}
+		return projects;
+	}
+	
+	public List<Project> getUpdatebleProjects(){
+		List<Project> projects  = new ArrayList<Project>();
+		List<Project> allProjects = this.getProjects();
+		for(Project project : allProjects){
+			if(project.isUpdateAvailable()){
+				projects.add( project );
+			}
+		}
+		return projects;
 	}
 	
 	public Job getJobByName(String name){
@@ -101,6 +140,17 @@ public class Repository {
 	
 	public String getPluginName(String jenkinsName){
 		return  plugin.getConfig().getString("Projects." + jenkinsName  );
+	}
+	
+	public  List<String> getProjectNames(){
+		
+		List<String> projects = new ArrayList<String>();
+		projects.addAll( this.plugin.getConfig().getConfigurationSection( "Projects" ).getKeys( false ) );
+		return projects;
+	}
+	
+	public String getPluginNamebyProjectName(String projectName){
+		return plugin.getConfig().getString("Projects." + projectName + ".Plugin");
 	}
 
 }

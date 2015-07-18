@@ -2,4 +2,9 @@ url: 'http://localhost:8080/jenkins'
 user: 'admin'
 password: 'password'
 Projects:
-  JenkinsUpdater: updater
+  JenkinsUpdater:
+    Plugin: JenkinsUpdaterMcPlugin
+  PPAPO:
+    Plugin: PPAPIMcPlugin
+  Worldedit:
+    Plugin: WorldEditMcPlugin
