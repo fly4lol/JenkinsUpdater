@@ -44,8 +44,9 @@ public class Project {
 	}
 	
 	public boolean isUpdateAvailable(){
+
 		try {
-			return this.getCreationTime() < this.job.details().getLastSuccessfulBuild().details().getTimestamp();
+			return this.getCreationTime() > this.job.details().getLastSuccessfulBuild().details().getTimestamp();
 		} catch (IOException e) {
 			
 			e.printStackTrace();
